@@ -82,11 +82,17 @@ function deletePlayer(playerName) {
         method: "DELETE"
     })
     .then(response => {
+        console.log("Status:", response.status);
         if (response.ok) {
             alert("Player deleted!");
-            loadPlayers();  // Table refresh karo
+            loadPlayers();
         } else {
+            response.text().then(text => console.log("Error:", text));
             alert("Failed to delete player");
         }
+    })              // ← NO semicolon here!
+    .catch(error => {
+        console.error("Network error:", error);
+        alert("Network error occurred");
     });
-}
+}                   // ← Function closing brace
