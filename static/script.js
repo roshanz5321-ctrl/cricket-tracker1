@@ -13,7 +13,7 @@ function renderTable(data) {
     <td>${player.fifties}</td>
     <td>${player.runs}</td>
     <td>${player.wickets}</td>
-    <td><button onclick="deletePlayer('${player.name}')" style="background:red;color:white;border:none;padding:5px 10px;cursor:pointer;">🗑️ Delete</button></td>
+  
 `;
     tbody.appendChild(row);
   });
@@ -74,25 +74,4 @@ document.getElementById("addPlayerBtn").addEventListener("click", function() {
     });
 });
 
-loadPlayers();
-function deletePlayer(playerName) {
-    if (!confirm(`Delete ${playerName}?`)) return;
-    
-    fetch(`/api/players/${FORMAT}/${playerName}`, {
-        method: "DELETE"
-    })
-    .then(response => {
-        console.log("Status:", response.status);
-        if (response.ok) {
-            alert("Player deleted!");
-            loadPlayers();
-        } else {
-            response.text().then(text => console.log("Error:", text));
-            alert("Failed to delete player");
-        }
-    })              // ← NO semicolon here!
-    .catch(error => {
-        console.error("Network error:", error);
-        alert("Network error occurred");
-    });
-}                   // ← Function closing brace
+loadPlayers()
