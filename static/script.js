@@ -7,13 +7,14 @@ function renderTable(data) {
   data.forEach(player => {
     const row = document.createElement("tr");
     row.innerHTML = `
-      <td>${player.name}</td>
-      <td>${player.team}</td>
-      <td>${player.hundreds}</td>
-      <td>${player.fifties}</td>
-      <td>${player.runs}</td>
-      <td>${player.wickets}</td>
-    `;
+    <td>${player.name}</td>
+    <td>${player.team}</td>
+    <td>${player.hundreds}</td>
+    <td>${player.fifties}</td>
+    <td>${player.runs}</td>
+    <td>${player.wickets}</td>
+    <td><button onclick="deletePlayer('${player.name}')" style="background:red;color:white;border:none;padding:5px 10px;cursor:pointer;">🗑️ Delete</button></td>
+`;
     tbody.appendChild(row);
   });
 }
@@ -74,3 +75,18 @@ document.getElementById("addPlayerBtn").addEventListener("click", function() {
 });
 
 loadPlayers();
+function deletePlayer(playerName) {
+    if (!confirm(`Delete ${playerName}?`)) return;
+    
+    fetch(`/api/players/${FORMAT}/${playerName}`, {
+        method: "DELETE"
+    })
+    .then(response => {
+        if (response.ok) {
+            alert("Player deleted!");
+            loadPlayers();  // Table refresh karo
+        } else {
+            alert("Failed to delete player");
+        }
+    });
+}

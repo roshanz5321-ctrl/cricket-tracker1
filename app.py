@@ -46,4 +46,23 @@ def add_player():
     return jsonify({"message": "Player added successfully"})
 
 if __name__ == "__main__":
+   # ✅ Route ko IF block ke BAHAR rakho
+ @app.route("/api/players/<format_name>/<player_name>", methods=["DELETE"])
+ def delete_player(format_name, player_name):
+    import sqlite3
+    conn = sqlite3.connect("players.db")
+    cursor = conn.cursor()
+    cursor.execute("DELETE FROM players WHERE format = ? AND name = ?", (format_name, player_name))
+    conn.commit()
+    deleted = cursor.rowcount
+    conn.close()
+    if deleted > 0:
+        return jsonify({"message": "Player deleted successfully"}), 200
+    else:
+        return jsonify({"message": "Player not found"}), 404
+
+
+# ✅ Sirf app.run ko andar rakho
+if __name__ == "__main__":
     app.run(debug=True, host="0.0.0.0")
+    app.run(debug=True,host="0.0.0.0")
