@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Cricket Stats Tracker</title>
+    <link rel="stylesheet" href="{{ url_for('static',filename='style.css')}}">
+</head>
+<body>
+    <h1> Cricket Stats Tracker</h1>
+    <p style="text-align:center; color:#666; font-size:0.85rem;">Career T20 Stats</p>
+    <div id="controls">
+        <input type="text" id="searchBox" placeholder="Search player..">
+        <button id="sortRunsBtn">Sort by Runs</button>
+        <button id="sortWicketsBtn">Sort by Wicket</button>
+    </div>
+    <table id="PlayerTable">
+        <thead>
+            <tr>
+                <th> Name </th>
+                <th> Team </th>
+                 <th> Hundreds</th>
+                  <th> Fiftees</th>
+
+                <th> Runs </th>
+                <th> Wicket </th>
+            </tr>
+        </thead>
+        <tbody id="tableBody">
+        </tbody>
+    </table>
+    <div id="addPlayerForm" style="margin-top:20px; text-align:center;">
+  <h3>Add New Player</h3>
+  <input type="text" id="newName" placeholder="Name">
+  <input type="text" id="newTeam" placeholder="Team">
+  <input type="number" id="newHundreds" placeholder="Hundreds">
+  <input type="number" id="newFifties" placeholder="Fifties">
+  <input type="number" id="newRuns" placeholder="Runs">
+  <input type="number" id="newWickets" placeholder="Wickets">
+  <button id="addPlayerBtn">Add Player</button>
+</div>
+<script>const FORMAT = "T20";</script>
+<script src ="{{ url_for('static',filename='script.js')}}"></script>
+</body>
+</html>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Cricket Stats Tracker - Home</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+  <h1>🏏 Cricket Stats Tracker</h1>
+  <p style="text-align:center; color:#666;">Choose a format to view stats</p>
+
+  <div id="formatCards">
+    <a href="/odi" class="format-card">
+      <h2>ODI</h2>
+      <p>One Day International Stats</p>
+    </a>
+    <a href="/t20" class="format-card">
+      <h2>T20</h2>
+      <p>Twenty20 International Stats</p>
+    </a>
+    <a href="/test" class="format-card">
+      <h2>Test</h2>
+      <p>Test Match Stats</p>
+    </a>
+  </div>
+
+</body>
+</html>
