@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Teams | Cricket Tracker</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <style>
+    .teams-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.5rem;
+      margin-top: 1.5rem;
+    }
+    .team-card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 1.5rem;
+      text-align: center;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      transition: transform 0.2s, box-shadow 0.2s;
+      cursor: pointer;
+      border: 1px solid #e0e0e0;
+    }
+    .team-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 6px 16px rgba(0,0,0,0.12);
+    }
+    .team-flag {
+      font-size: 2.5rem;
+      margin-bottom: 0.5rem;
+    }
+    .team-card h3 {
+      color: #1a237e;
+      margin-bottom: 0.3rem;
+      font-size: 1.1rem;
+    }
+    .team-card p {
+      color: #666;
+      font-size: 0.9rem;
+    }
+    .section-title {
+      margin-top: 2rem;
+      color: #1a237e;
+      border-bottom: 2px solid #e0e0e0;
+      padding-bottom: 0.5rem;
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="/">Home</a>
+    <a href="/odi">ODI</a>
+    <a href="/t20">T20</a>
+    <a href="/test">Test</a>
+    <a href="/teams">Teams</a>
+    <a href="/records">Records</a>
+    <a href="/about">About</a>
+  </nav>
+
+  <div class="hero">
+    <h1>🏏 CRICKET TRACKER</h1>
+    <p class="tagline">TEAMS</p>
+  </div>
+
+  <div class="homeContent">
+    <h2 class="section-title">International Teams</h2>
+    <div class="teams-grid" id="teamCards"></div>
+  </div>
+
+  <script>
+    // Hardcoded major cricket teams with flag emojis
+    const hardcodedTeams = [
+      { name: "India", flag: "🇮🇳" },
+      { name: "Australia", flag: "🇦🇺" },
+      { name: "England", flag: "🏴󠁧󠁢󠁥󠁮󠁧󠁿" },
+      { name: "Pakistan", flag: "🇵🇰" },
+      { name: "South Africa", flag: "🇿🇦" },
+      { name: "New Zealand", flag: "🇳🇿" },
+      { name: "Sri Lanka", flag: "🇱🇰" },
+      { name: "West Indies", flag: "🌴" },
+      { name: "Bangladesh", flag: "🇧🇩" },
+      { name: "Afghanistan", flag: "🇦🇫" },
+      { name: "Ireland", flag: "🇮🇪" },
+      { name: "Zimbabwe", flag: "🇿🇼" }
+    ];
+
+    const container = document.getElementById("teamCards");
+
+    // Render hardcoded teams first
+    hardcodedTeams.forEach(team => {
+      const card = document.createElement("div");
+      card.className = "team-card";
+      card.innerHTML = `
+        <div class="team-flag">${team.flag}</div>
+        <h3>${team.name}</h3>
+        <p>International Team</p>
+      `;
+      container.appendChild(card);
+    });
+
+    // Then fetch any additional teams from the database
+    fetch("/api/teams")
+      .then(res => res.json())
+      .then(dbTeams => {
+        dbTeams.forEach(teamName => {
+          // Skip if already shown in hardcoded list
+          const alreadyShown = hardcodedTeams.some(t => 
+            t.name.toLowerCase() === teamName.toLowerCase()
+          );
+          if (alreadyShown) return;
+
+          const card = document.createElement("div");
+          card.className = "team-card";
+          card.innerHTML = `
+            <div class="team-flag">🏏</div>
+            <h3>${teamName}</h3>
+            <p>Squad Available</p>
+          `;
+          container.appendChild(card);
+        });
+      })
+      .catch(err => console.log("Could not load extra teams from DB:", err));
+  </script>
+</body>

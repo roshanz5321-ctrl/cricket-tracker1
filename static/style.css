@@ -1,131 +1,323 @@
-body {
-  font-family: Arial, sans-serif;
-  background-color: #f4f1ea;
+/* ==================== RESET & BASE ==================== */
+* {
   margin: 0;
-  padding: 20px;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-h1 {
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(135deg, #0b2545 0%, #133b5c 100%);
+  color: #fff;
+  min-height: 100vh;
+  padding: 0;
+}
+
+/* ==================== NAVBAR ==================== */
+nav {
+  background: rgba(255,255,255,0.1);
+  backdrop-filter: blur(10px);
+  padding: 15px 0;
   text-align: center;
-  color: #1e5631;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
 }
 
-#controls {
-  display: flex;
-  gap: 10px;
-  justify-content: center;
-  margin-bottom: 20px;
+nav a {
+  color: #fff;
+  text-decoration: none;
+  margin: 0 18px;
+  font-weight: 500;
+  transition: color 0.3s;
+  text-transform: uppercase;
+  font-size: 0.85rem;
+  letter-spacing: 1px;
 }
 
-#searchBox {
-  padding: 8px;
-  width: 200px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
+nav a:hover {
+  color: #f4d03f;
 }
 
-button {
-  padding: 8px 14px;
-  background-color: #1e5631;
+/* ==================== HERO ==================== */
+.hero {
+  background: linear-gradient(135deg, #0b2545, #164426 100%);
+  padding: 50px 20px 60px;
+  text-align: center;
+  border-radius: 0 0 25px 25px;
+}
+
+.hero h1 {
   color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
+  font-size: 2.5rem;
+  margin: 0;
+  letter-spacing: 1px;
 }
 
-button:hover {
-  background-color: #2d7a42;
-}
-
-table {
-  width: 80%;
-  margin: 0 auto;
-  border-collapse: collapse;
-  background-color: white;
-}
-
-th, td {
-  padding: 10px;
-  text-align: left;
-  border-bottom: 1px solid #ddd;
-}
-
-th {
-  background-color: #1e5631;
-  color: white;
-}
-
-tr:nth-child(even) {
-  background-color: #f2efe6;
-}
-#addPlayerForm {
-  background: white;
-  border-radius: 10px;
-  padding: 20px;
-  margin: 30px auto;
-  max-width: 900px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-}
-
-#addPlayerForm h3 {
-  color: #1e5631;
-  margin-top: 0;
-  margin-bottom: 15px;
-}
-
-#addPlayerForm input {
-  padding: 8px 10px;
-  margin: 5px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  width: 130px;
+.hero .tagline {
+  color: #f4d03f;
+  font-weight: 700;
+  letter-spacing: 3px;
   font-size: 0.9rem;
+  margin-top: 10px;
+  text-transform: uppercase;
 }
 
-#addPlayerForm button {
-  padding: 9px 18px;
-  margin: 5px;
-  background-color: #1e5631;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 0.9rem;
+/* ==================== CONTENT ==================== */
+.homeContent {
+  max-width: 1200px;
+  margin: -25px auto 0;
+  padding: 0 20px 40px;
 }
 
-#addPlayerForm button:hover {
-  background-color: #2d7a42;
+.homeContent > h2 {
+  color: #f4d03f;
+  text-align: center;
+  margin-bottom: 30px;
+  font-size: 1.8rem;
 }
-#formatCards {
-  display: flex;
-  justify-content: center;
+
+/* ==================== CARDS (Format / Team / Records) ==================== */
+#formatCards,
+#teamCards,
+#recordsCards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: 20px;
-  margin-top: 40px;
-  flex-wrap: wrap;
+  padding: 10px;
+  max-width: 1000px;
+  margin: 0 auto;
 }
 
 .format-card {
   background: white;
-  border-radius: 10px;
-  padding: 30px 40px;
+  border-radius: 14px;
+  padding: 28px 24px;
   text-decoration: none;
-  color: #1e5631;
+  color: #0b2545;
   text-align: center;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-  transition: transform 0.2s;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+  transition: transform 0.3s, box-shadow 0.3s;
+  border-left: 4px solid #f4d03f;
+  cursor: pointer;
 }
 
 .format-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  transform: translateY(-6px);
+  box-shadow: 0 12px 35px rgba(0,0,0,0.3);
 }
 
 .format-card h2 {
   margin: 0 0 8px 0;
+  color: #0b2545;
+  font-size: 1.2rem;
 }
 
 .format-card p {
   margin: 0;
   color: #666;
+  font-size: 0.9rem;
+}
+
+.format-card strong {
+  color: #0b2545;
+  font-size: 1.1rem;
+}
+
+.stat-number {
+  font-size: 2rem !important;
+  font-weight: 700;
+  color: #0b2545 !important;
+  margin-top: 10px !important;
+}
+
+/* ==================== TABLE ==================== */
+table {
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+  border-collapse: collapse;
+  background-color: white;
+  color: #0b2545;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+
+th, td {
+  padding: 12px 15px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+th {
+  background-color: #0b2545;
+  color: white;
+  font-weight: 600;
+  text-transform: uppercase;
   font-size: 0.85rem;
+  letter-spacing: 0.5px;
+}
+
+tr:nth-child(even) {
+  background-color: #f2efe6;
+}
+
+tr:hover {
+  background-color: #e8e4d9;
+}
+
+/* ==================== CONTROLS & SEARCH ==================== */
+#controls {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin-bottom: 25px;
+  flex-wrap: wrap;
+}
+
+#searchBox {
+  padding: 10px 14px;
+  width: 250px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+  outline: none;
+}
+
+#searchBox:focus {
+  border-color: #f4d03f;
+  box-shadow: 0 0 0 3px rgba(244, 208, 63, 0.2);
+}
+
+button {
+  padding: 10px 18px;
+  background-color: #0b2545;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.95rem;
+  transition: background 0.3s;
+}
+
+button:hover {
+  background-color: #13315c;
+}
+
+/* ==================== ADD PLAYER FORM ==================== */
+#addPlayerForm {
+  background: white;
+  border-radius: 14px;
+  padding: 25px;
+  margin: 30px auto;
+  max-width: 900px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+  color: #0b2545;
+}
+
+#addPlayerForm h3 {
+  color: #0b2545;
+  margin-top: 0;
+  margin-bottom: 18px;
+  font-size: 1.3rem;
+}
+
+#addPlayerForm input {
+  padding: 10px 12px;
+  margin: 6px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  width: 140px;
+  font-size: 0.9rem;
+  transition: border-color 0.3s;
+}
+
+#addPlayerForm input:focus {
+  border-color: #0b2545;
+  outline: none;
+}
+
+#addPlayerForm button {
+  padding: 10px 20px;
+  margin: 6px;
+  background-color: #0b2545;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.95rem;
+  transition: background 0.3s;
+}
+
+#addPlayerForm button:hover {
+  background-color: #13315c;
+}
+
+/* ==================== UTILITIES (Loading / Error) ==================== */
+.loading {
+  text-align: center;
+  font-size: 1.2rem;
+  color: #f4d03f;
+  padding: 50px;
+  grid-column: 1 / -1;
+}
+
+.error {
+  background: rgba(231, 76, 60, 0.95);
+  color: white;
+  padding: 25px;
+  border-radius: 12px;
+  text-align: center;
+  max-width: 500px;
+  margin: 0 auto;
+  grid-column: 1 / -1;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+
+.error h3 {
+  margin-bottom: 10px;
+  font-size: 1.2rem;
+}
+
+/* ==================== RESPONSIVE (Mobile) ==================== */
+@media (max-width: 768px) {
+  .hero h1 {
+    font-size: 1.7rem;
+  }
+  
+  nav a {
+    margin: 0 8px;
+    font-size: 0.75rem;
+  }
+  
+  #formatCards,
+  #teamCards,
+  #recordsCards {
+    grid-template-columns: 1fr;
+    padding: 0 10px;
+  }
+  
+  table {
+    font-size: 0.85rem;
+  }
+  
+  th, td {
+    padding: 8px 10px;
+  }
+  
+  #addPlayerForm input {
+    width: 100%;
+    margin: 5px 0;
+  }
+  
+  #controls {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  #searchBox {
+    width: 90%;
+  }
 }
