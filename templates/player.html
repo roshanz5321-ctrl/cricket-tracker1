@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Player Profile | Cricket Tracker</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <style>
+    .profile-header {
+      background: linear-gradient(135deg, #1a237e, #0d1b2a);
+      color: #fff;
+      padding: 40px;
+      border-radius: 16px;
+      text-align: center;
+      margin-bottom: 30px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    }
+    .profile-header h1 {
+      font-size: 2.5rem;
+      margin-bottom: 8px;
+      color: #ffd700;
+    }
+    .profile-header .team-badge {
+      display: inline-block;
+      background: rgba(255,255,255,0.2);
+      padding: 6px 18px;
+      border-radius: 20px;
+      font-size: 1rem;
+      margin-top: 10px;
+    }
+    .overall-stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 15px;
+      margin-bottom: 30px;
+    }
+    .stat-box {
+      background: #fff;
+      padding: 20px;
+      border-radius: 12px;
+      text-align: center;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      border-left: 4px solid #1a237e;
+    }
+    .stat-box .number {
+      font-size: 2rem;
+      font-weight: bold;
+      color: #1a237e;
+    }
+    .stat-box .label {
+      color: #666;
+      font-size: 0.9rem;
+      margin-top: 5px;
+    }
+    .format-section {
+      background: #fff;
+      border-radius: 12px;
+      padding: 25px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+    .format-section h3 {
+      color: #1a237e;
+      margin-bottom: 15px;
+      font-size: 1.3rem;
+      border-bottom: 2px solid #e0e0e0;
+      padding-bottom: 8px;
+    }
+    .format-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 15px;
+    }
+    .fmt-stat {
+      text-align: center;
+      padding: 15px;
+      background: #f8f9fa;
+      border-radius: 8px;
+    }
+    .fmt-stat .val {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: #0d1b2a;
+    }
+    .fmt-stat .lbl {
+      font-size: 0.85rem;
+      color: #666;
+      margin-top: 4px;
+    }
+    .back-btn {
+      display: inline-block;
+      margin-bottom: 20px;
+      padding: 10px 20px;
+      background: #1a237e;
+      color: #fff;
+      text-decoration: none;
+      border-radius: 6px;
+      font-weight: 500;
+    }
+    .back-btn:hover {
+      opacity: 0.9;
+    }
+    .not-found {
+      text-align: center;
+      padding: 60px 20px;
+      color: #c62828;
+    }
+    .not-found h2 {
+      font-size: 2rem;
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="/">Home</a>
+    <a href="/odi">ODI</a>
+    <a href="/t20">T20</a>
+    <a href="/test">Test</a>
+    <a href="/teams">Teams</a>
+    <a href="/records">Records</a>
+    <a href="/about">About</a>
+  </nav>
+
+  <div class="homeContent">
+    <a href="javascript:history.back()" class="back-btn">← Back</a>
+    
+    <div id="profileContainer">
+      <div style="text-align:center; padding:40px;">⏳ Loading profile...</div>
+    </div>
+  </div>
+
+  <script>
+    const playerName = "{{ player_name }}";
+
+    fetch("/api/player/" + encodeURIComponent(playerName))
+      .then(r => {
+        if (!r.ok) throw new Error("Player not found");
+        return r.json();
+      })
+      .then(data => {
+        const container = document.getElementById("profileContainer");
+        
+        // Build format cards HTML
+        let formatsHtml = "";
+        data.formats.forEach(f => {
+          formatsHtml += `
+            <div class="format-section">
+              <h3>${f.format.toUpperCase()} Career</h3>
+              <div class="format-grid">
+                <div class="fmt-stat"><div class="val">${f.runs}</div><div class="lbl">Runs</div></div>
+                <div class="fmt-stat"><div class="val">${f.wickets}</div><div class="lbl">Wickets</div></div>
+                <div class="fmt-stat"><div class="val">${f.hundreds}</div><div class="lbl">100s</div></div>
+                <div class="fmt-stat"><div class="val">${f.fifties}</div><div class="lbl">50s</div></div>
+              </div>
+            </div>
+          `;
+        });
+
+        container.innerHTML = `
+          <div class="profile-header">
+            <h1>${data.name}</h1>
+            <div class="team-badge">${data.team}</div>
+          </div>
+
+          <h2 style="color:#1a237e; margin-bottom:15px;">Career Overview</h2>
+          <div class="overall-stats">
+            <div class="stat-box">
+              <div class="number">${data.overall.runs.toLocaleString()}</div>
+              <div class="label">Total Runs</div>
+            </div>
+            <div class="stat-box">
+              <div class="number">${data.overall.wickets}</div>
+              <div class="label">Total Wickets</div>
+            </div>
+            <div class="stat-box">
+              <div class="number">${data.overall.hundreds}</div>
+              <div class="label">Centuries</div>
+            </div>
+            <div class="stat-box">
+              <div class="number">${data.overall.fifties}</div>
+              <div class="label">Half-Centuries</div>
+            </div>
+            <div class="stat-box">
+              <div class="number">${data.overall.matches}</div>
+              <div class="label">Formats Played</div>
+            </div>
+          </div>
+
+          <h2 style="color:#1a237e; margin-bottom:15px;">Format Breakdown</h2>
+          ${formatsHtml}
+        `;
+      })
+      .catch(err => {
+        document.getElementById("profileContainer").innerHTML = `
+          <div class="not-found">
+            <h2>⚠️ Player Not Found</h2>
+            <p>${err.message}</p>
+            <a href="/" style="display:inline-block; margin-top:20px; color:#1a237e;">Go Home</a>
+          </div>
+        `;
+      });
+  </script>
+</body>
+</html>

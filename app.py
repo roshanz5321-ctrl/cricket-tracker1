@@ -1,5 +1,6 @@
 from flask import Flask, render_template, jsonify, request
 import sqlite3
+import os
 
 app = Flask(__name__)
 
@@ -118,6 +119,51 @@ def get_teams():
     teams = [row[0] for row in cursor.fetchall()]
     conn.close()
     return jsonify(teams)
+
+@app.route("/player/<player_name>")
+def player_profile_page(player_name):
+    return render_template("player.html", player_name=player_name)
+
+
+@app.route("/api/player/<player_name>")
+def get_player_profile(player_name):
+    conn = sqlite3.connect("players.db")
+    conn.row_factory = sqlite3.Row
+    cursor = conn.cursor()
+    
+    # Get all format stats for this player
+    cursor.execute(
+        "SELECT * FROM players WHERE name = ? ORDER BY format",
+        (player_name,)
+    )
+    rows = cursor.fetchall()
+    
+    if not rows:
+        conn.close()
+        return jsonify({"error": "Player not found"}), 404
+    
+    # Calculate overall career stats
+    total_runs = sum(r["runs"] for r in rows)
+    total_wickets = sum(r["wickets"] for r in rows)
+    total_hundreds = sum(r["hundreds"] for r in rows)
+    total_fifties = sum(r["fifties"] for r in rows)
+    
+    formats = [dict(r) for r in rows]
+    team = rows[0]["team"] if rows else "N/A"
+    
+    conn.close()
+    return jsonify({
+        "name": player_name,
+        "team": team,
+        "formats": formats,
+        "overall": {
+            "runs": total_runs,
+            "wickets": total_wickets,
+            "hundreds": total_hundreds,
+            "fifties": total_fifties,
+            "matches": len(formats)
+        }
+    })
 
 
 # ==================== RUN ====================
