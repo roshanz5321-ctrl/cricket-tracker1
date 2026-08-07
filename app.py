@@ -164,6 +164,10 @@ def get_player_profile(player_name):
             "matches": len(formats)
         }
     })
+@app.route("/stats")
+def stats_page():
+    return render_template("stats.html")
+
 
 
 # ==================== RUN ====================
