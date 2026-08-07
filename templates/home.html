@@ -4,37 +4,328 @@
   <meta charset="UTF-8">
   <title>Cricket Stats Tracker - Home</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: linear-gradient(180deg, #0d1b2a 0%, #1b2838 100%);
+      color: #fff;
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      min-height: 100vh;
+    }
+    .hero {
+      text-align: center;
+      padding: 50px 20px 30px;
+    }
+    .hero h1 {
+      font-size: 3rem;
+      background: linear-gradient(135deg, #ffd700, #ffed4e);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 8px;
+    }
+    .hero p {
+      color: #8b9dc3;
+      font-size: 1.1rem;
+    }
+    
+    /* Format Cards */
+    .formats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 25px;
+      max-width: 1000px;
+      margin: 20px auto 40px;
+      padding: 0 20px;
+    }
+    .fmt-card {
+      background: linear-gradient(135deg, #fff 0%, #f0f0f0 100%);
+      color: #0d1b2a;
+      border-radius: 16px;
+      padding: 35px 25px;
+      text-align: center;
+      text-decoration: none;
+      transition: all 0.3s;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+    }
+    .fmt-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 12px 40px rgba(255,215,0,0.2);
+    }
+    .fmt-card h2 { font-size: 2rem; margin-bottom: 8px; }
+    .fmt-card p { color: #555; margin-bottom: 15px; }
+    .fmt-btn {
+      display: inline-block;
+      padding: 10px 25px;
+      background: #1a237e;
+      color: #fff;
+      border-radius: 25px;
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+    
+    /* BIG Stats Counter Section */
+    .stats-bar {
+      background: rgba(255,215,0,0.08);
+      border-top: 2px solid rgba(255,215,0,0.2);
+      border-bottom: 2px solid rgba(255,215,0,0.2);
+      padding: 40px 20px;
+      margin-bottom: 40px;
+    }
+    .stats-inner {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 30px;
+      max-width: 1100px;
+      margin: 0 auto;
+      text-align: center;
+    }
+    .big-stat .num {
+      font-size: 3rem;
+      font-weight: bold;
+      color: #ffd700;
+      line-height: 1;
+    }
+    .big-stat .lbl {
+      color: #8b9dc3;
+      font-size: 0.9rem;
+      margin-top: 8px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    
+    /* Top Performers Section */
+    .performers {
+      max-width: 1100px;
+      margin: 0 auto 50px;
+      padding: 0 20px;
+    }
+    .performers h2 {
+      font-size: 1.6rem;
+      margin-bottom: 20px;
+      color: #ffd700;
+      text-align: center;
+    }
+    .perf-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+    }
+    .perf-card {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 12px;
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+    .perf-avatar {
+      width: 55px; height: 55px;
+      background: linear-gradient(135deg, #1a237e, #3949ab);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 1.2rem;
+      flex-shrink: 0;
+    }
+    .perf-info h4 {
+      color: #fff;
+      font-size: 1rem;
+      margin-bottom: 4px;
+    }
+    .perf-info p {
+      color: #8b9dc3;
+      font-size: 0.85rem;
+    }
+    .perf-info .big-num {
+      color: #ffd700;
+      font-size: 1.4rem;
+      font-weight: bold;
+    }
+    
+    /* Feature Cards */
+    .features {
+      max-width: 1100px;
+      margin: 0 auto 60px;
+      padding: 0 20px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 25px;
+    }
+    .feat-card {
+      background: linear-gradient(135deg, rgba(255,255,255,0.08), rgba(255,255,255,0.03));
+      border-radius: 16px;
+      padding: 30px;
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+    .feat-card h3 {
+      color: #ffd700;
+      font-size: 1.2rem;
+      margin-bottom: 10px;
+    }
+    .feat-card p {
+      color: #8b9dc3;
+      line-height: 1.6;
+      margin-bottom: 15px;
+    }
+    .feat-card a {
+      color: #ffd700;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+    
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 30px;
+      color: #5a6a8a;
+      border-top: 1px solid rgba(255,255,255,0.05);
+    }
+  </style>
 </head>
 <body>
-  <nav>
-<a href="/">Home</a>
-<a href="/odi">ODI</a>
-<a href="/t20">T20</a>
-<a href="/test">Test</a>
-<a href="/stats">Total Stats</a>
-<a href="/teams">Teams</a>
-<a href="/records">Records</a>
-<a href="/about">About</a>
+  <nav style="background: rgba(13,27,42,0.95); padding:1rem 2rem; display:flex; gap:1.5rem; flex-wrap:wrap; border-bottom:1px solid rgba(255,255,255,0.1);">
+    <a href="/" style="color:#ffd700; text-decoration:none; font-weight:600;">HOME</a>
+    <a href="/odi" style="color:#8b9dc3; text-decoration:none;">ODI</a>
+    <a href="/t20" style="color:#8b9dc3; text-decoration:none;">T20</a>
+    <a href="/test" style="color:#8b9dc3; text-decoration:none;">TEST</a>
+    <a href="/stats" style="color:#8b9dc3; text-decoration:none;">TOTAL STATS</a>
+    <a href="/teams" style="color:#8b9dc3; text-decoration:none;">TEAMS</a>
+    <a href="/records" style="color:#8b9dc3; text-decoration:none;">RECORDS</a>
+    <a href="/about" style="color:#8b9dc3; text-decoration:none;">ABOUT</a>
   </nav>
- 
-  <h1>🏏 Cricket Stats Tracker</h1>
-  <p style="text-align:center; color:#666;">Choose a format to view stats</p>
 
-  <div id="formatCards">
-    <a href="/odi" class="format-card">
-      <h2>ODI</h2>
+  <div class="hero">
+    <h1>🏏 Cricket Stats Tracker</h1>
+    <p>Powered by Cricket. Driven by Stats.</p>
+  </div>
+
+  <div class="formats">
+    <a href="/odi" class="fmt-card">
+      <h2>🏏 ODI</h2>
       <p>One Day International Stats</p>
+      <span class="fmt-btn">View ODI Stats →</span>
     </a>
-    <a href="/t20" class="format-card">
-      <h2>T20</h2>
+    <a href="/t20" class="fmt-card">
+      <h2>⚡ T20</h2>
       <p>Twenty20 International Stats</p>
+      <span class="fmt-btn">View T20 Stats →</span>
     </a>
-    <a href="/test" class="format-card">
-      <h2>Test</h2>
+    <a href="/test" class="fmt-card">
+      <h2>🧢 Test</h2>
       <p>Test Match Stats</p>
+      <span class="fmt-btn">View Test Stats →</span>
     </a>
   </div>
-  
 
+  <!-- BIG Stats Counter -->
+  <div class="stats-bar">
+    <div class="stats-inner">
+      <div class="big-stat">
+        <div class="num" id="s-players">0</div>
+        <div class="lbl">Players</div>
+      </div>
+      <div class="big-stat">
+        <div class="num" id="s-teams">0</div>
+        <div class="lbl">Teams</div>
+      </div>
+      <div class="big-stat">
+        <div class="num" id="s-runs">0</div>
+        <div class="lbl">Total Runs</div>
+      </div>
+      <div class="big-stat">
+        <div class="num" id="s-wickets">0</div>
+        <div class="lbl">Wickets</div>
+      </div>
+      <div class="big-stat">
+        <div class="num" id="s-formats">3</div>
+        <div class="lbl">Formats</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Top Performers -->
+  <div class="performers">
+    <h2>🏆 Top Performers</h2>
+    <div class="perf-grid" id="perfGrid">
+      <div class="perf-card"><div class="perf-avatar">⏳</div><div class="perf-info"><h4>Loading...</h4></div></div>
+    </div>
+  </div>
+
+  <!-- Feature Cards -->
+  <div class="features">
+    <div class="feat-card">
+      <h3>📊 Teams & Players</h3>
+      <p>Explore detailed stats of 12 international teams and 240+ players from around the world.</p>
+      <a href="/teams">Explore Now →</a>
+    </div>
+    <div class="feat-card">
+      <h3>🏅 Records & Milestones</h3>
+      <p>Discover top run scorers, wicket takers, century makers and historic achievements.</p>
+      <a href="/records">View Records →</a>
+    </div>
+    <div class="feat-card">
+      <h3>📈 Total Stats</h3>
+      <p>See combined career stats across all formats with interactive charts and filters.</p>
+      <a href="/stats">View Analytics →</a>
+    </div>
+  </div>
+
+  <footer>
+    <p>© 2025 Cricket Stats Tracker. All rights reserved.</p>
+  </footer>
+
+  <script>
+    function animate(id, target) {
+      const el = document.getElementById(id);
+      let curr = 0;
+      const step = Math.max(1, Math.ceil(target / 50));
+      const t = setInterval(() => {
+        curr += step;
+        if (curr >= target) { curr = target; clearInterval(t); }
+        el.textContent = curr.toLocaleString();
+      }, 25);
+    }
+
+    async function loadHome() {
+      try {
+        const [odi, t20, test, teams] = await Promise.all([
+          fetch('/api/players/odi').then(r => r.ok ? r.json() : []),
+          fetch('/api/players/t20').then(r => r.ok ? r.json() : []),
+          fetch('/api/players/test').then(r => r.ok ? r.json() : []),
+          fetch('/api/teams').then(r => r.ok ? r.json() : [])
+        ]);
+
+        const all = [...odi, ...t20, ...test];
+        const totalRuns = all.reduce((s,p) => s + (p.runs||0), 0);
+        const totalWkts = all.reduce((s,p) => s + (p.wickets||0), 0);
+
+        animate('s-players', all.length);
+        animate('s-teams', teams.length);
+        animate('s-runs', totalRuns);
+        animate('s-wickets', totalWkts);
+
+        // Top 4 performers
+        const top = all.sort((a,b) => (b.runs||0) - (a.runs||0)).slice(0, 4);
+        document.getElementById('perfGrid').innerHTML = top.map((p,i) => `
+          <div class="perf-card">
+            <div class="perf-avatar">${p.name.split(' ').map(n=>n[0]).join('')}</div>
+            <div class="perf-info">
+              <h4>${p.name}</h4>
+              <p>${p.team} • ${p.format.toUpperCase()}</p>
+              <div class="big-num">${p.runs.toLocaleString()} runs</div>
+            </div>
+          </div>
+        `).join('');
+
+      } catch(e) {
+        console.error(e);
+      }
+    }
+    loadHome();
+  </script>
 </body>
 </html>
